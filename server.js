@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const path = require("path");
 
 const IngredientsController = require("./controllers/ingredientsController");
+const RecipesController = require("./controllers/recipesController");
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.get("/api/config", (req, res) => {
 });
 
 app.use(IngredientsController);
+app.use(RecipesController);
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "./client/build/index.html"));
