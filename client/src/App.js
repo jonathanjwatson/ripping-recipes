@@ -5,6 +5,7 @@ import NoMatch from "./containers/NoMatch/NoMatch";
 import Ingredients from "./containers/Ingredients/Ingredients";
 import NewIngredient from "./containers/NewIngredient/NewIngredient";
 import Recipes from "./containers/Recipes/Recipes";
+import NewRecipe from "./containers/NewRecipe/NewRecipe";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route exact path="/ingredients" component={Ingredients} />
         <Route exact path="/ingredients/new" component={NewIngredient} />
         <Route exact path="/recipes" component={Recipes} />
+        <Route exact path="/recipes/new" component={NewRecipe} />
         <Route component={NoMatch} />
       </Switch>
     </Router>
