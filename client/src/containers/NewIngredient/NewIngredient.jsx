@@ -1,80 +1,67 @@
-import React, { Component } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import IngredientForm from "../../components/IngredientForm/IngredientForm";
+import StatusContext from "../../utils/StatusContext";
 
-class NewIngredient extends Component {
-  state = {
-    name: "",
-    isVegetarian: false,
-  };
+const NewIngredient = (props) => {
+  const [name, setName] = useState("");
+  const [isVegetarian, setIsVegetarian] = useState(false);
 
-  handleInputChange = (e) => {
-    const { name, value } = e.target;
-    this.setState({
-      [name]: value,
-    });
-  };
+  const status = useContext(StatusContext);
 
-  handleCheckboxChange = (e) => {
-    const { name, checked } = e.target;
-    this.setState({
-      [name]: checked,
-    });
-  };
+  useEffect(() => {
+    return () => {
+      status.dispatch({
+        type: "SET_MESSAGE",
+        message: "",
+        messageType: "success",
+      });
+    };
+  }, []);
 
-  handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+    status.dispatch({ type: "TOGGLE_IS_LOADING" });
     axios
-      .post("/api/ingredients", this.state)
+      .post("/api/ingredients", { name, isVegetarian })
       .then((response) => {
         console.log(response.data);
-        window.alert(response.data.message);
-        this.props.history.push("/ingredients")
+        // status.setIsLoading(false);
+        status.dispatch({ type: "TOGGLE_IS_LOADING" });
+        status.dispatch({
+          type: "SET_MESSAGE",
+          message: response.data.message,
+          messageType: "success",
+        });
+        // window.alert(response.data.message);
+        setTimeout(() => {
+          props.history.push("/ingredients");
+        }, 1500);
       })
       .catch((err) => {
         console.log(err);
+        status.dispatch({ type: "TOGGLE_IS_LOADING" });
+        status.dispatch({
+          type: "SET_MESSAGE",
+          message: "Failed to create new ingredient",
+          messageType: "error",
+        });
       });
   };
 
-  render() {
-    return (
-      <div className="container">
-        <div className="row">
-          <form className="col s12" onSubmit={this.handleSubmit}>
-            <div className="row">
-              <div className="input-field col s8">
-                <input
-                  id="name"
-                  type="text"
-                  name="name"
-                  value={this.state.name}
-                  onChange={this.handleInputChange}
-                />
-                <label htmlFor="name">Ingredient Name</label>
-              </div>
-              <div className="input-field col s4">
-                <label>
-                  <input
-                    type="checkbox"
-                    name="isVegetarian"
-                    checked={this.state.isVegetarian}
-                    onChange={this.handleCheckboxChange}
-                  />
-                  <span>Is Vegetarian?</span>
-                </label>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col s12">
-                <button className="btn waves-effect waves-light" type="submit">
-                  Create
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
+  return (
+    <div className="container">
+      <div className="row">
+        <IngredientForm
+          handleSubmit={handleSubmit}
+          setName={setName}
+          setIsVegetarian={setIsVegetarian}
+          name={name}
+          isVegetarian={isVegetarian}
+        />
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default NewIngredient;

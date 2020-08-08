@@ -26,11 +26,13 @@ router.get("/api/ingredients", (req, res) => {
 router.post("/api/ingredients", (req, res) => {
   db.Ingredient.create(req.body)
     .then((createdIngredient) => {
-      res.json({
-        error: false,
-        data: createdIngredient,
-        message: "Successfully created new ingredient.",
-      });
+      setTimeout(() => {
+        res.json({
+          error: false,
+          data: createdIngredient,
+          message: "Successfully created new ingredient.",
+        });
+      }, 3000);
     })
     .catch((err) => {
       console.log(err);
