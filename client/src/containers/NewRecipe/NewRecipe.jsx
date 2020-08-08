@@ -120,7 +120,7 @@ class NewRecipe extends Component {
                     <span>
                       {ingredient.name}{" "}
                       {ingredient.isVegetarian && (
-                        <FontAwesomeIcon icon={faLeaf} />
+                        <FontAwesomeIcon icon={faLeaf} color="#26a69a"/>
                       )}
                     </span>
                   </label>

@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from "react";
+import React, { useReducer } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from "./containers/Home/Home";
 import NoMatch from "./containers/NoMatch/NoMatch";
@@ -8,6 +8,9 @@ import Recipes from "./containers/Recipes/Recipes";
 import NewRecipe from "./containers/NewRecipe/NewRecipe";
 import StatusContext from "./utils/StatusContext";
 import Toast from "./components/Toast/Toast";
+import EditIngredient from "./containers/EditIngredient/EditIngredient";
+import NavBar from "./components/NavBar/NavBar";
+import "./App.css";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -22,6 +25,7 @@ function reducer(state, action) {
         message: action.message,
         messageType: action.messageType,
       };
+    default:
   }
 }
 
@@ -37,11 +41,17 @@ function App() {
       <StatusContext.Provider
         value={{ isLoading, message, messageType, dispatch }}
       >
+        <NavBar />
         <Toast />
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/ingredients" component={Ingredients} />
           <Route exact path="/ingredients/new" component={NewIngredient} />
+          <Route
+            exact
+            path="/ingredients/:id/edit"
+            component={EditIngredient}
+          />
           <Route exact path="/recipes" component={Recipes} />
           <Route exact path="/recipes/new" component={NewRecipe} />
           <Route component={NoMatch} />

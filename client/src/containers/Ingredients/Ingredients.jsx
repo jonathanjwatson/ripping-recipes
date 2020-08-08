@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBan, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 
 class Ingredients extends Component {
   state = {
@@ -8,6 +10,10 @@ class Ingredients extends Component {
   };
 
   componentDidMount() {
+    this.getIngredients();
+  }
+
+  getIngredients = () => {
     axios
       .get("/api/ingredients")
       .then((response) => {
@@ -19,7 +25,19 @@ class Ingredients extends Component {
       .catch((err) => {
         console.log(err);
       });
-  }
+  };
+
+  deleteIngredient = (id) => {
+    axios
+      .delete(`/api/ingredients/${id}`)
+      .then((response) => {
+        console.log(response.data);
+        this.getIngredients();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   render() {
     return (
@@ -43,7 +61,22 @@ class Ingredients extends Component {
           <div className="col s12">
             {this.state.ingredients.map((ingredient) => (
               <div key={ingredient._id}>
-                <h3>{ingredient.name}</h3>
+                <p>
+                  <span> </span>
+                  {ingredient.name}
+                  <span> </span>
+                  <Link to={`/ingredients/${ingredient._id}/edit`}>
+                    <FontAwesomeIcon icon={faPencilAlt} />
+                  </Link>
+                  <span> </span>
+                  <FontAwesomeIcon
+                    icon={faBan}
+                    color="#721c24"
+                    onClick={() => {
+                      this.deleteIngredient(ingredient._id);
+                    }}
+                  />
+                </p>
               </div>
             ))}
           </div>

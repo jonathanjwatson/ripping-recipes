@@ -43,9 +43,12 @@ class Recipes extends Component {
               <div key={recipe._id}>
                 <h3>{recipe.name}</h3>
                 {recipe.ingredients.map((ingredient) => (
-                  <p>
-                    {ingredient.name}<span> </span>
-                    {ingredient.isVegetarian && <FontAwesomeIcon icon={faLeaf} />}
+                  <p key={ingredient._id}>
+                    {ingredient.name}
+                    <span> </span>
+                    {ingredient.isVegetarian && (
+                      <FontAwesomeIcon icon={faLeaf} color="#26a69a" />
+                    )}
                   </p>
                 ))}
               </div>

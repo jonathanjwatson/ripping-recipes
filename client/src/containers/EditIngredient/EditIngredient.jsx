@@ -1,15 +1,32 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 import IngredientForm from "../../components/IngredientForm/IngredientForm";
 import StatusContext from "../../utils/StatusContext";
 
-const NewIngredient = (props) => {
+const EditIngredient = (props) => {
   const [name, setName] = useState("");
   const [isVegetarian, setIsVegetarian] = useState(false);
 
   const status = useContext(StatusContext);
 
+  const { id } = useParams();
+
+  const nameInputRef = useRef();
+
   useEffect(() => {
+    axios
+      .get(`/api/ingredients/${id}`)
+      .then((response) => {
+        console.log(response.data);
+        setName(response.data.data.name);
+        setIsVegetarian(response.data.data.isVegetarian);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    nameInputRef.current.focus();
+
     return () => {
       status.dispatch({
         type: "SET_MESSAGE",
@@ -17,13 +34,13 @@ const NewIngredient = (props) => {
         messageType: "success",
       });
     };
-  }, []);
+  }, [id]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     status.dispatch({ type: "TOGGLE_IS_LOADING" });
     axios
-      .post("/api/ingredients", { name, isVegetarian })
+      .put(`/api/ingredients/${id}`, { name, isVegetarian })
       .then((response) => {
         console.log(response.data);
         // status.setIsLoading(false);
@@ -48,7 +65,6 @@ const NewIngredient = (props) => {
         });
       });
   };
-
   return (
     <div className="container">
       <div className="row">
@@ -58,6 +74,7 @@ const NewIngredient = (props) => {
           setIsVegetarian={setIsVegetarian}
           name={name}
           isVegetarian={isVegetarian}
+          nameInputRef={nameInputRef}
         >
           <button
             className="btn waves-effect waves-light"
@@ -65,7 +82,7 @@ const NewIngredient = (props) => {
             style={{ marginTop: -50, marginRight: 10 }}
             disabled={status.isLoading}
           >
-            Create
+            Update
           </button>
         </IngredientForm>
       </div>
@@ -73,4 +90,4 @@ const NewIngredient = (props) => {
   );
 };
 
-export default NewIngredient;
+export default EditIngredient;

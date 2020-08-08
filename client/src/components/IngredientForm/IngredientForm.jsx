@@ -17,6 +17,7 @@ const IngredientForm = (props) => {
             onChange={(e) => {
               props.setName(e.target.value);
             }}
+            ref={props.nameInputRef}
           />
           <label htmlFor="name">Ingredient Name</label>
         </div>
@@ -36,14 +37,7 @@ const IngredientForm = (props) => {
       </div>
       <div className="row">
         <div className="col s12">
-          <button
-            className="btn waves-effect waves-light"
-            type="submit"
-            style={{ marginTop: -50, marginRight: 10 }}
-            disabled={status.isLoading}
-          >
-            Create
-          </button>
+          {props.children}
 
           <div style={{ display: "inline-block" }}>
             <PuffLoader color="#26a69a" loading={status.isLoading} />
