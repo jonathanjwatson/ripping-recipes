@@ -9,7 +9,7 @@ import NewRecipe from "./containers/NewRecipe/NewRecipe";
 import StatusContext from "./utils/StatusContext";
 import Toast from "./components/Toast/Toast";
 import EditIngredient from "./containers/EditIngredient/EditIngredient";
-import NavBar from "./components/NavBar/NavBar";
+import Nav from "./components/Nav/Nav";
 import "./App.css";
 
 function reducer(state, action) {
@@ -41,7 +41,7 @@ function App() {
       <StatusContext.Provider
         value={{ isLoading, message, messageType, dispatch }}
       >
-        <NavBar />
+        <Nav />
         <Toast />
         <Switch>
           <Route exact path="/" component={Home} />
