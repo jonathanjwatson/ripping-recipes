@@ -10,6 +10,10 @@ class Recipes extends Component {
   };
 
   componentDidMount() {
+    this.getRecipes();
+  }
+
+  getRecipes = () => {
     axios
       .get("/api/recipes")
       .then((response) => {
@@ -21,7 +25,7 @@ class Recipes extends Component {
       .catch((err) => {
         console.log(err);
       });
-  }
+  };
   render() {
     return (
       <div className="container">
@@ -34,6 +38,10 @@ class Recipes extends Component {
           <div className="col s12">
             <Link to="/recipes/new" className="waves-effect waves-light btn">
               Create new recipe
+            </Link>
+            <span> </span>
+            <Link to="/recipes/find" className="waves-effect waves-light btn">
+              Find your next recipe
             </Link>
           </div>
         </div>

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLeaf } from "@fortawesome/free-solid-svg-icons";
+import IngredientsTable from "../../components/IngredientsTable/IngredientsTable";
 
 class NewRecipe extends Component {
   state = {
@@ -105,7 +106,12 @@ class NewRecipe extends Component {
             </form>
           </div>
           <div className="col s6">
-            {this.state.ingredients.map((ingredient) => (
+            <IngredientsTable
+              ingredients={this.state.ingredients}
+              selectable={true}
+              handleCheckboxChange={this.handleCheckboxChange}
+            />
+            {/* {this.state.ingredients.map((ingredient) => (
               <div className="row" key={ingredient._id}>
                 <div className="input-field col s12">
                   <label>
@@ -126,7 +132,7 @@ class NewRecipe extends Component {
                   </label>
                 </div>
               </div>
-            ))}
+            ))} */}
           </div>
         </div>
       </div>

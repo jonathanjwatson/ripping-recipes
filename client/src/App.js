@@ -11,6 +11,7 @@ import Toast from "./components/Toast/Toast";
 import EditIngredient from "./containers/EditIngredient/EditIngredient";
 import Nav from "./components/Nav/Nav";
 import "./App.css";
+import FindRecipe from "./containers/FindRecipe/FindRecipe";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -54,6 +55,7 @@ function App() {
           />
           <Route exact path="/recipes" component={Recipes} />
           <Route exact path="/recipes/new" component={NewRecipe} />
+          <Route exact path="/recipes/find" component={FindRecipe} />
           <Route component={NoMatch} />
         </Switch>
       </StatusContext.Provider>

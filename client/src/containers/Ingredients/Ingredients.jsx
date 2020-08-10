@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBan, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
+import IngredientsTable from "../../components/IngredientsTable/IngredientsTable";
 
 class Ingredients extends Component {
   state = {
@@ -58,29 +57,9 @@ class Ingredients extends Component {
           </div>
         </div>
         <div className="row">
+          <div className="col s12"></div>
           <div className="col s12">
-            {this.state.ingredients.map((ingredient) => (
-              <div key={ingredient._id}>
-                <p>
-                  <span> </span>
-                  {ingredient.name}
-                  <span> </span>
-                  <Link to={`/ingredients/${ingredient._id}/edit`}>
-                    <FontAwesomeIcon icon={faPencilAlt} />
-                  </Link>
-                  <span> </span>
-                  <FontAwesomeIcon
-                    icon={faBan}
-                    color="#721c24"
-                    onClick={() => {
-                      this.deleteIngredient(ingredient._id);
-                    }}
-                  />
-                </p>
-              </div>
-            ))}
-          </div>
-          <div className="col s12">
+            <IngredientsTable ingredients={this.state.ingredients}/>
             {this.state.ingredients.length === 0 && (
               <p>No ingredients returned.</p>
             )}

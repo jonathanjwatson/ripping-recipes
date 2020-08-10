@@ -21,11 +21,24 @@ router.get("/api/recipes", (req, res) => {
       });
     });
 });
+
+// FIND MATCHING RECIPES BY INGREDIENTS
+router.post("/api/recipes/find", (req, res) => {
+  db.Recipe.find({ ingredients: { $in: req.body.ingredients } })
+    .populate("ingredients")
+    .then((foundRecipes) => {
+      res.json({
+        error: false,
+        data: foundRecipes,
+        message: "Found the following recipes matching search criteria.",
+      });
+    });
+});
 // READ ONE
 
 // CREATE
 router.post("/api/recipes", (req, res) => {
-    // TODO: sanitize req.body
+  // TODO: sanitize req.body
   db.Recipe.create(req.body)
     .then((createdRecipe) => {
       res.json({
