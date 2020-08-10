@@ -3,9 +3,13 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBan, faLeaf, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 
-const IngredientsTable = ({ ingredients, selectable, handleCheckboxChange }) => {
+const IngredientsTable = ({
+  ingredients,
+  selectable,
+  handleCheckboxChange,
+}) => {
   return (
-    <table>
+    <table className="centered">
       <thead>
         <tr>
           {selectable && <th>Add to Recipe</th>}
