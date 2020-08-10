@@ -25,6 +25,7 @@ router.get("/api/recipes", (req, res) => {
 
 // CREATE
 router.post("/api/recipes", (req, res) => {
+    // TODO: sanitize req.body
   db.Recipe.create(req.body)
     .then((createdRecipe) => {
       res.json({

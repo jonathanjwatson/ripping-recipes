@@ -41,6 +41,7 @@ router.get("/api/ingredients/:id", (req, res) => {
 
 // CREATE
 router.post("/api/ingredients", (req, res) => {
+  // TODO: sanitize req.body
   db.Ingredient.create(req.body)
     .then((createdIngredient) => {
       res.json({
@@ -60,6 +61,10 @@ router.post("/api/ingredients", (req, res) => {
 });
 // EDIT
 router.put("/api/ingredients/:id", (req, res) => {
+  // TODO: sanitize req.body
+  // TODO: destructure request.body
+  // only bring in the fields I need.
+  // name or isVegetarian
   db.Ingredient.findOneAndUpdate({ _id: req.params.id }, req.body, {
     new: true,
   })
