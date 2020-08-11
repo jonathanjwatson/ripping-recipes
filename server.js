@@ -4,6 +4,8 @@ const path = require("path");
 
 const IngredientsController = require("./controllers/ingredientsController");
 const RecipesController = require("./controllers/recipesController");
+const UsersController = require("./controllers/usersController");
+const AuthController = require("./controllers/authController");
 
 const app = express();
 
@@ -24,6 +26,8 @@ app.get("/api/config", (req, res) => {
 
 app.use(IngredientsController);
 app.use(RecipesController);
+app.use(UsersController);
+app.use(AuthController);
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "./client/build/index.html"));
@@ -33,6 +37,7 @@ mongoose
   .connect(process.env.MONGODB_URI || "mongodb://localhost/mern-starter", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useCreateIndex: true,
   })
   .then(() => {
     console.log("Successfully connected to database.");
