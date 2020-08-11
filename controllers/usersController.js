@@ -17,13 +17,22 @@ router.get("/api/users/:id", (req, res) => {
 
 // CREATE
 router.post("/api/users", (req, res) => {
-  db.User.create(req.body).then((createdUser) => {
-    res.json({
-      error: false,
-      data: createdUser,
-      message: "Successfully created new user.",
+  db.User.create(req.body)
+    .then((createdUser) => {
+      res.json({
+        error: false,
+        data: createdUser,
+        message: "Successfully created new user.",
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: true,
+        data: null,
+        message: "Unable to create new user.",
+      });
     });
-  });
 });
 
 // UPDATE

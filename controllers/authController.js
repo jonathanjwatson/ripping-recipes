@@ -5,12 +5,15 @@ const db = require("../models");
 
 // LOGIN
 router.post("/api/login", (req, res) => {
-  db.User.findOne({ email: req.body.email }).then((foundUser) => {
+  //   console.log(req.body);
+  const email = req.body.email.toLowerCase();
+  db.User.findOne({ email: email }).then((foundUser) => {
+    // console.log("FOUND USER: ", foundUser);
     if (foundUser.password === req.body.password) {
       // send back a token.
       const privateKey = "supersecretpassword";
       jwt.sign({ email: foundUser.email }, privateKey, function (err, token) {
-        console.log(token);
+        // console.log(token);
         res.json({
           error: false,
           data: token,

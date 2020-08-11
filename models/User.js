@@ -30,6 +30,8 @@ const UserSchema = new Schema({
   ],
 });
 
+// Write a method to convert email addresses to all lowercase before saving to the database. 
+
 const User = mongoose.model("User", UserSchema);
 
 module.exports = User;

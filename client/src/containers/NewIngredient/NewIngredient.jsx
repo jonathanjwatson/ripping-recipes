@@ -2,12 +2,15 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import IngredientForm from "../../components/IngredientForm/IngredientForm";
 import StatusContext from "../../utils/StatusContext";
+import UserContext from "../../utils/UserContext";
 
 const NewIngredient = (props) => {
   const [name, setName] = useState("");
   const [isVegetarian, setIsVegetarian] = useState(false);
 
   const status = useContext(StatusContext);
+
+  const user = useContext(UserContext);
 
   useEffect(() => {
     return () => {
@@ -20,10 +23,15 @@ const NewIngredient = (props) => {
   }, []);
 
   const handleSubmit = (e) => {
+    let config = {
+      headers: {
+        auth: user.jwt,
+      },
+    };
     e.preventDefault();
     status.dispatch({ type: "TOGGLE_IS_LOADING" });
     axios
-      .post("/api/ingredients", { name, isVegetarian })
+      .post("/api/ingredients", { name, isVegetarian }, config)
       .then((response) => {
         console.log(response.data);
         // status.setIsLoading(false);

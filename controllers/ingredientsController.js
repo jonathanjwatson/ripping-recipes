@@ -41,6 +41,7 @@ router.get("/api/ingredients/:id", (req, res) => {
 
 // CREATE
 router.post("/api/ingredients", (req, res) => {
+  console.log(req.headers);
   // TODO: sanitize req.body
   db.Ingredient.create(req.body)
     .then((createdIngredient) => {

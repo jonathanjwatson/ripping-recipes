@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLeaf } from "@fortawesome/free-solid-svg-icons";
 import IngredientsTable from "../../components/IngredientsTable/IngredientsTable";
 
 class NewRecipe extends Component {
