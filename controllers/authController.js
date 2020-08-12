@@ -12,7 +12,7 @@ router.post("/api/login", (req, res) => {
     if (foundUser.password === req.body.password) {
       // send back a token.
       const privateKey = process.env.JWT_PASSWORD;
-      jwt.sign({ email: foundUser.email }, privateKey, function (err, token) {
+      jwt.sign({ email: foundUser.email }, privateKey, {expiresIn: 4320}, function (err, token) {
         // console.log(token);
         res.json({
           error: false,

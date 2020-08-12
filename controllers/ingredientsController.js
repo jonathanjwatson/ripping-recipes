@@ -46,32 +46,39 @@ router.post("/api/ingredients", (req, res) => {
 
   // Look req.headers.auth
   // See if it's a valid token.
-  jwt.verify(req.headers.auth, process.env.JWT_PASSWORD, function (err, decoded) {
+  jwt.verify(req.headers.auth, process.env.JWT_PASSWORD, function (
+    err,
+    decoded
+  ) {
     if (err) {
       console.log("Error decoding token.");
       console.log(err);
-    } else {
-      console.log(decoded);
-    }
-  });
-
-  // TODO: sanitize req.body
-  db.Ingredient.create(req.body)
-    .then((createdIngredient) => {
-      res.json({
-        error: false,
-        data: createdIngredient,
-        message: "Successfully created new ingredient.",
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json({
+      res.status(401).json({
         error: true,
         data: null,
-        message: "Failed to create new ingredient.",
+        message: "Please sign in again.",
       });
-    });
+    } else {
+      console.log(decoded);
+      // TODO: sanitize req.body
+      db.Ingredient.create(req.body)
+        .then((createdIngredient) => {
+          res.json({
+            error: false,
+            data: createdIngredient,
+            message: "Successfully created new ingredient.",
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(500).json({
+            error: true,
+            data: null,
+            message: "Failed to create new ingredient.",
+          });
+        });
+    }
+  });
 });
 // EDIT
 router.put("/api/ingredients/:id", (req, res) => {
