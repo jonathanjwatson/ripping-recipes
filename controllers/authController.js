@@ -11,7 +11,7 @@ router.post("/api/login", (req, res) => {
     // console.log("FOUND USER: ", foundUser);
     if (foundUser.password === req.body.password) {
       // send back a token.
-      const privateKey = "supersecretpassword";
+      const privateKey = process.env.JWT_PASSWORD;
       jwt.sign({ email: foundUser.email }, privateKey, function (err, token) {
         // console.log(token);
         res.json({

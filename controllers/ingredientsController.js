@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../models");
+const jwt = require("jsonwebtoken");
 
 // READ ALL
 router.get("/api/ingredients", (req, res) => {
@@ -41,7 +42,19 @@ router.get("/api/ingredients/:id", (req, res) => {
 
 // CREATE
 router.post("/api/ingredients", (req, res) => {
-  console.log(req.headers);
+  console.log(req.headers.auth);
+
+  // Look req.headers.auth
+  // See if it's a valid token.
+  jwt.verify(req.headers.auth, process.env.JWT_PASSWORD, function (err, decoded) {
+    if (err) {
+      console.log("Error decoding token.");
+      console.log(err);
+    } else {
+      console.log(decoded);
+    }
+  });
+
   // TODO: sanitize req.body
   db.Ingredient.create(req.body)
     .then((createdIngredient) => {
