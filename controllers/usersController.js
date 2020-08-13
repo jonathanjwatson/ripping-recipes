@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../models");
+const jwt = require("jsonwebtoken");
 
 // READ ALL
 
@@ -19,11 +20,20 @@ router.get("/api/users/:id", (req, res) => {
 router.post("/api/users", (req, res) => {
   db.User.create(req.body)
     .then((createdUser) => {
-      res.json({
-        error: false,
-        data: createdUser,
-        message: "Successfully created new user.",
-      });
+      const privateKey = process.env.JWT_PASSWORD;
+      jwt.sign(
+        { email: createdUser.email },
+        privateKey,
+        { expiresIn: 4320 },
+        function (err, token) {
+          // console.log(token);
+          res.json({
+            error: false,
+            data: token,
+            message: "Successfully created new user.",
+          });
+        }
+      );
     })
     .catch((err) => {
       console.log(err);

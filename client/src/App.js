@@ -14,6 +14,7 @@ import Nav from "./components/Nav/Nav";
 import "./App.css";
 import FindRecipe from "./containers/FindRecipe/FindRecipe";
 import Login from "./containers/Login/Login";
+import SignUp from "./containers/SignUp/SignUp";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -79,6 +80,7 @@ function App() {
             <Route exact path="/recipes/new" component={NewRecipe} />
             <Route exact path="/recipes/find" component={FindRecipe} />
             <Route exact path="/login" component={Login} />
+            <Route exact path="/signup" component={SignUp} />
             <Route component={NoMatch} />
           </Switch>
         </UserContext.Provider>
