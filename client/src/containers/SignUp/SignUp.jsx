@@ -4,24 +4,45 @@ import UserContext from "../../utils/UserContext";
 import UserForm from "../../components/UserForm/UserForm";
 
 const SignUp = (props) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState({ value: "", error: "" });
+  const [password, setPassword] = useState({ value: "", error: "" });
 
   const user = useContext(UserContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post("/api/users", { email, password })
-      .then((response) => {
-        user.handleLogin(response.data.data);
-        setTimeout(() => {
-          props.history.push("/recipes");
-        }, 1500);
-      })
-      .catch((err) => {
-        console.log(err);
+
+    const regex = new RegExp(/^(?=.*\d).{4,16}$/);
+    console.log(password.value);
+    console.log(regex.test(password.value));
+    if (!regex.test(password.value)) {
+      setPassword({
+        ...password,
+        error:
+          "Password does not meet minimum requirements: one lowercase letter, one uppercase letter, one number",
       });
+    } else {
+      axios
+        .post("/api/users", { email: email.value, password: password.value })
+        .then((response) => {
+          user.handleLogin(response.data.data);
+          setTimeout(() => {
+            props.history.push("/recipes");
+          }, 1500);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    if (name === "password") {
+      setPassword({ value: value, error: "" });
+    } else if (name === "email") {
+      setEmail({ value: value, error: "" });
+    }
   };
 
   return (
@@ -36,9 +57,8 @@ const SignUp = (props) => {
           <UserForm
             handleSubmit={handleSubmit}
             email={email}
-            setEmail={setEmail}
             password={password}
-            setPassword={setPassword}
+            handleInputChange={handleInputChange}
           />
         </div>
       </div>

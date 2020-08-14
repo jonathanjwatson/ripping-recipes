@@ -1,6 +1,6 @@
 import React from "react";
 
-const UserForm = ({ email, handleSubmit, password, setEmail, setPassword }) => {
+const UserForm = ({ email, handleInputChange, handleSubmit, password }) => {
   return (
     <form onSubmit={handleSubmit}>
       <div className="row">
@@ -9,14 +9,12 @@ const UserForm = ({ email, handleSubmit, password, setEmail, setPassword }) => {
             id="email"
             type="text"
             name="email"
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
+            value={email.value}
+            onChange={handleInputChange}
           />
           <label htmlFor="email">Email</label>
           <span className="helper-text" data-error="wrong" data-success="right">
-            Helper text
+            {email.error}
           </span>
         </div>
       </div>
@@ -24,16 +22,19 @@ const UserForm = ({ email, handleSubmit, password, setEmail, setPassword }) => {
         <div className="input-field col s12">
           <input
             id="password"
-            type="password"
+            type="text"
             name="password"
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
+            value={password.value}
+            onChange={handleInputChange}
           />
           <label htmlFor="password">Password</label>
-          <span className="helper-text" data-error="wrong" data-success="right">
-            Helper text
+          <span
+            className="helper-text"
+            data-error="wrong"
+            data-success="right"
+            style={{ color: "red" }}
+          >
+            {password.error}
           </span>
         </div>
       </div>
